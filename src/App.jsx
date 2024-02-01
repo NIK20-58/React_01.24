@@ -1,35 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+const categories = [
+  'Any Category',
+  'General Knowledge',
+  'Entertainment: Books',
+  'Entertainment: Film',
+  'Entertainment: Music',
+  'Entertainment: Musicals & Theatres',
+  'Entertainment: Television',
+  'Entertainment: Video Games',
+  'Entertainment: Board Games',
+  'Science & Nature',
+  'Science: Computers',
+  'Science: Mathematics',
+  'Mythology',
+  'Sports',
+  'Geography',
+  'History',
+  'Politics',
+  'Art',
+  'Celebrities',
+  'Animals',
+  'Vehicles',
+  'Entertainment: Comics',
+  'Science: Gadgets',
+  'Entertainment: Japanese Anime & Manga',
+  'Entertainment: Cartoon & Animations'
+]
+const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard']
+const types = ['Any Type', 'Multiple Choice', 'True / False']
+const time = ['1m', '2m', '5m']
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container">
+        <div className="select-wrapper">
+          <NumInput />
+          <Select options={categories} />
+          <Select options={difficulties} />
+          <Select options={types} />
+          <Select options={time} />
+        </div>
+        <div className="button-wrapper">
+          <Button text="Start quiz" />
+          <Button text="See my statistics" />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
-export default App
+const NumInput = () => {
+  return (
+    <>
+      <label htmlFor="question_num">Choose number of questions: </label>
+      <input type="number" max={15} min={5} id="question_num" name="question_num" />
+    </>
+  )
+}
+
+const Select = ({ options }) => {
+  return (
+    <select>
+      {options.map((item) => (
+        <option key={item}>{item}</option>
+      ))}
+    </select>
+  )
+}
+
+const Button = ({ text }) => {
+  return <button>{text}</button>
+}
