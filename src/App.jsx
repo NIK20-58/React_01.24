@@ -1,3 +1,7 @@
+import { Button } from './Button'
+import { Select } from './Select'
+import { NumInput } from './NumInput'
+
 const categories = [
   'Any Category',
   'General Knowledge',
@@ -47,27 +51,4 @@ export const App = () => {
       </div>
     </>
   )
-}
-
-const NumInput = () => {
-  return (
-    <>
-      <label htmlFor="question_num">Choose number of questions: </label>
-      <input type="number" max={15} min={5} id="question_num" name="question_num" />
-    </>
-  )
-}
-
-const Select = ({ options }) => {
-  return (
-    <select>
-      {options.map((item) => (
-        <option key={item}>{item}</option>
-      ))}
-    </select>
-  )
-}
-
-const Button = ({ text }) => {
-  return <button>{text}</button>
 }
