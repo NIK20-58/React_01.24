@@ -37,8 +37,21 @@
   margin-right: 0;
 }
 
-/* @media screen and (max-width: 600px) {
-  .select-wrapper select {
-    font-size: 14px;
-  }
-} */
+.progress-container {
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+.progress-bar {
+  width: 50%;
+  height: 30px;
+  background-color: #4caf50;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
+
+.question-response {
+  display: grid;
+  place-content: center;
+}
