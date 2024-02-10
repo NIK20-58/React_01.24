@@ -36,3 +36,22 @@
 .button-wrapper button:last-child {
   margin-right: 0;
 }
+
+.progress-container {
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+.progress-bar {
+  width: 50%;
+  height: 30px;
+  background-color: #4caf50;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
+
+.question-response {
+  display: grid;
+  place-content: center;
+}
