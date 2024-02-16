@@ -1,10 +1,8 @@
-import { useEffect } from 'react'
 import { Button } from './Button'
 import { ConfirmationModal } from './ConfirmationModal'
 import { ProgressBar } from './ProgressBar'
 import { Question } from './Question'
 import { Timer } from './Timer'
-import { useNavigate } from 'react-router-dom'
 
 const questionList = ['What is your name?']
 
@@ -20,11 +18,7 @@ export const MainQuizScreen = () => {
       <Timer />
       <Question questionText={questionList} />
       <br />
-      <Button
-        text={'End quiz'}
-        onClick={() => {
-          handleEndBtnClick()
-        }}></Button>
+      <Button text={'End quiz'} onClick={handleEndBtnClick}></Button>
       <ConfirmationModal />
     </>
   )

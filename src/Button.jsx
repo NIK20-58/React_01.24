@@ -4,5 +4,5 @@ export const Button = ({
     console.log('No onClick func')
   }
 }) => {
-  return <button onClick={() => onClick()}>{text}</button>
+  return <button onClick={onClick}>{text}</button>
 }
