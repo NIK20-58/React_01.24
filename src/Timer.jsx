@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { setGameOver, setTimeSpent } from './Api/Api'
 
 export const Timer = () => {
-  const [time, setTime] = useState(10)
+  const state = useSelector((state) => state.user)
+  const [time, setTime] = useState(state.config.time === '' ? 60 : state.config.time)
   const navigate = useNavigate()
-  const lastQuestion = false
+  const dispatch = useDispatch()
 
   const minutes = Math.floor(time / 60)
     .toString()
@@ -22,18 +25,19 @@ export const Timer = () => {
   }, [])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate('/result')
-    }, 10000)
-
-    if (lastQuestion) {
-      navigate('/result')
-    }
+    const timer = setTimeout(
+      () => {
+        navigate('/result')
+        dispatch(setGameOver())
+      },
+      1000 * (time > state.gameStat.timeSpent ? 10 : 0)
+    ) // TIMER TIME
 
     return () => {
       clearTimeout(timer)
+      dispatch(setTimeSpent((state.config.time === '' ? 60 : state.config.time) - time))
     }
-  }, [navigate, lastQuestion])
+  }, [navigate, state.config.time, dispatch, time, state.gameStat.timeSpent])
 
   return (
     <p>

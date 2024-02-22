@@ -1,38 +1,19 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react'
 import { createSlice } from '@reduxjs/toolkit'
 
-// export const fetchAllCategories = createAsyncThunk('fetchCats', async (thunkAPI) => {
-//   const response = await fetch('https://opentdb.com/api_category.php')
-//   const data = await response.json()
-//   console.log(data)
-//   return data
-// })
-
-// const initialState = {
-//   categories: {
-//     value: [],
-//     status: ''
-//   }
-// }
-
-// const catSlice = createSlice({
-//   name: 'categories',
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder.addCase(fetchAllCategories.pending)
-//     builder.addCase(fetchAllCategories.fulfilled, (state, action) =>
-//       state.categories.push(action.payload)
-//     )
-//     builder.addCase(fetchAllCategories.rejected)
-//   }
-// })
-
 const initialState = {
   config: {
-    category: '',
-    difficulty: '',
-    type: '',
-    time: ''
+    amount: 10,
+    category: { id: '', value: '' },
+    difficulty: 'Random',
+    type: 'Random',
+    time: 60,
+    isLastQuestion: false
+  },
+  gameStat: {
+    currentQuestionIndex: 0,
+    score: 0,
+    timeSpent: 0
   }
 }
 
@@ -40,6 +21,9 @@ const startSlice = createSlice({
   name: 'start',
   initialState,
   reducers: {
+    setAmount: (state, action) => {
+      state.config.amount = action.payload
+    },
     setDifficulty: (state, action) => {
       state.config.difficulty = action.payload
     },
@@ -47,26 +31,56 @@ const startSlice = createSlice({
       state.config.type = action.payload
     },
     setTime: (state, action) => {
-      state.config.time = action.payload
+      state.config.time = action.payload * 60
     },
     setCategory: (state, action) => {
-      console.log('Payload', action.payload)
-      state.config.category = action.payload
+      state.config.category.id = action.payload.id
+      state.config.category.value = action.payload.value
+    },
+    setAnswer: (state, action) => {
+      if (state.config.amount - 2 < state.gameStat.currentQuestionIndex) {
+        state.config.isLastQuestion = true
+      } else {
+        if (action.payload.answer === action.payload.correct_answer) {
+          state.gameStat.score += 1
+        }
+        state.gameStat.currentQuestionIndex += 1
+      }
+    },
+    setTimeSpent: (state, action) => {
+      state.gameStat.timeSpent = action.payload
+    },
+    setGameOver: (state) => {
+      state.config.isLastQuestion = true
     }
   }
 })
 
-export const { setDifficulty, setType, setTime, setCategory } = startSlice.actions
+export const {
+  setDifficulty,
+  setType,
+  setTime,
+  setCategory,
+  setAnswer,
+  setTimeSpent,
+  setAmount,
+  setGameOver
+} = startSlice.actions
 export const setConfigReducer = startSlice.reducer
 
 export const quizApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://opentdb.com/' }),
-  reducerPath: 'fetchCat',
+  reducerPath: 'allCategories',
   endpoints: (builder) => ({
     getAllCategories: builder.query({
       query: () => `api_category.php`
+    }),
+    getAllQuestions: builder.query({
+      query: ({ amount, category, difficulty, type }) => {
+        return `api.php?amount=${amount}${category ? '&category=' + category : ''}${difficulty !== 'Random' ? '&difficulty=' + difficulty : ''}${type !== 'Random' ? '&type=' + type : ''}`
+      }
     })
   })
 })
 
-export const { useGetAllCategoriesQuery } = quizApi
+export const { useGetAllCategoriesQuery, useGetAllQuestionsQuery } = quizApi

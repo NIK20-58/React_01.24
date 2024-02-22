@@ -1,25 +1,37 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setCategory, setDifficulty, setTime, setType } from './Api/Api'
 
 export const Select = ({ options, fetched, type }) => {
-  // const data = useSelector((state) => state)
-  // console.log(data)
   const dispatch = useDispatch()
+
+  // console.log()
+
   return (
     <select
       onChange={() => {
         const catBut = document.getElementById(`${type}`)
         const value = catBut.value
-        // console.log('value', value)
-        if (type === 'Category') dispatch(setCategory(value))
-        if (type === 'Difficulty') dispatch(setDifficulty(value))
-        if (type === 'Type') dispatch(setType(value))
-        if (type === 'Time') dispatch(setTime(value))
+
+        if (type === 'Category')
+          dispatch(
+            setCategory({
+              id: catBut.selectedOptions[0].id,
+              value: catBut.selectedOptions[0].value
+            })
+          )
+        if (type === 'Difficulty') dispatch(setDifficulty(value.toLowerCase()))
+        if (type === 'Type')
+          dispatch(
+            setType(
+              value !== 'Any Type' ? (value === 'Multiple Choice' ? 'multiple' : 'boolean') : ''
+            )
+          )
+        if (type === 'Time') dispatch(setTime(value === '1m' ? 1 : value === '2m' ? 2 : 5))
       }}
       id={type}>
       {fetched
         ? options.map((item) => (
-            <option key={item.name} value={item.name}>
+            <option key={item.name} value={item.name} id={item.id}>
               {item.name}
             </option>
           ))

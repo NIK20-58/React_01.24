@@ -4,7 +4,7 @@ import { setConfigReducer } from '../Api/Api'
 
 const rootReducer = combineReducers({
   [quizApi.reducerPath]: quizApi.reducer,
-  setConfigReducer
+  user: setConfigReducer
 })
 
 export const store = configureStore({
