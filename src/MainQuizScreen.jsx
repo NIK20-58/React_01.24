@@ -13,19 +13,10 @@ export const MainQuizScreen = () => {
   }
 
   const { isLoading, isLastQuestion } = useSelector((state) => state.user.config)
-  // console.log(state)
-  // const { currentData, isError, isLoading, isFetching } = useGetAllQuestionsQuery({
-  //   amount: amount,
-  //   category: category.id,
-  //   difficulty: difficulty,
-  //   type: type
-  // })
 
   if (isLoading) {
     return <p>Loading...</p>
   }
-
-  // console.log(currentData)
 
   return (
     <>

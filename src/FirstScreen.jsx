@@ -2,7 +2,7 @@ import { Button } from './Button'
 import { Select } from './Select'
 import { NumInput } from './NumInput'
 import { useNavigate } from 'react-router-dom'
-import { getQuestions, useGetAllCategoriesQuery } from './Api/Api'
+import { getQuestions, useGetAllCategoriesQuery } from './Slices/slices'
 import { useDispatch } from 'react-redux'
 
 const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard']

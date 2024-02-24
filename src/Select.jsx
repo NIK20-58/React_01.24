@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { setCategory, setDifficulty, setTime, setType } from './Api/Api'
+import { setCategory, setDifficulty, setTime, setType } from './Slices/slices'
 
 export const Select = ({ options, fetched, type }) => {
   const dispatch = useDispatch()

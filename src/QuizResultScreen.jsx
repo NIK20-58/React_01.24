@@ -4,7 +4,7 @@ import { QuizConfigDetails } from './QuizConfigDetails'
 import { ResultInfo } from './ResultInfo'
 import { SpentTime } from './SpentTime'
 import { useDispatch } from 'react-redux'
-import { getQuestions, setResetConfig, setRestart } from './Api/Api'
+import { getQuestions, setResetConfig, setRestart } from './Slices/slices'
 
 export const QuizResultScreen = () => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ export const QuizResultScreen = () => {
   }
   const handleRestart = () => {
     dispatch(setRestart())
-    dispatch(getQuestions({}))
+    dispatch(getQuestions())
     navigate('/start')
   }
 

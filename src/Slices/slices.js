@@ -62,12 +62,12 @@ const startSlice = createSlice({
       state.config.category.value = action.payload.value
     },
     setAnswer: (state, action) => {
+      if (action.payload.answer === action.payload.correct_answer) {
+        state.gameStat.score += 1
+      }
       if (state.config.amount - 2 < state.gameStat.currentQuestionIndex) {
         state.config.isLastQuestion = true
       } else {
-        if (action.payload.answer === action.payload.correct_answer) {
-          state.gameStat.score += 1
-        }
         state.gameStat.currentQuestionIndex += 1
       }
     },

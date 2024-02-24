@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { setAmount } from './Api/Api'
+import { setAmount } from './Slices/slices'
 export const NumInput = ({ ref }) => {
   const dispatch = useDispatch()
   return (

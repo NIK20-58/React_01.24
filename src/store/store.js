@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { quizApi } from '../Api/Api'
-import { setConfigReducer } from '../Api/Api'
+import { quizApi } from '../Slices/slices'
+import { setConfigReducer } from '../Slices/slices'
 
 const rootReducer = combineReducers({
   [quizApi.reducerPath]: quizApi.reducer,
