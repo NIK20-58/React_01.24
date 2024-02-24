@@ -2,18 +2,19 @@ import { setAnswer } from './Api/Api'
 import { Button } from './Button'
 import { useSelector, useDispatch } from 'react-redux'
 
-export const Question = ({ questionText }) => {
+export const Question = () => {
   const dispatch = useDispatch()
   const state = useSelector((state) => state)
   const currentQuestionIndex = state.user.gameStat.currentQuestionIndex
-  const correctAnswer = questionText[currentQuestionIndex].correct_answer
+  const questions = state.user.config.questions
+  const correctAnswer = questions[currentQuestionIndex].correct_answer
 
-  console.log('Hey', state)
+  // console.log('Hey', state)
 
   return (
     <div className="question-response">
-      <p>{questionText[currentQuestionIndex].question}</p>
-      {questionText[currentQuestionIndex].incorrect_answers.map((text) => (
+      <p>{questions[currentQuestionIndex].question}</p>
+      {questions[currentQuestionIndex].incorrect_answers.map((text) => (
         <Button
           text={text}
           key={text}
@@ -28,11 +29,11 @@ export const Question = ({ questionText }) => {
         />
       ))}
       <Button
-        text={questionText[currentQuestionIndex].correct_answer}
+        text={questions[currentQuestionIndex].correct_answer}
         onClick={() =>
           dispatch(
             setAnswer({
-              answer: questionText[currentQuestionIndex].correct_answer,
+              answer: questions[currentQuestionIndex].correct_answer,
               correct_answer: correctAnswer
             })
           )

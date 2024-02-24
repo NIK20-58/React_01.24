@@ -2,23 +2,22 @@ import { Button } from './Button'
 import { Select } from './Select'
 import { NumInput } from './NumInput'
 import { useNavigate } from 'react-router-dom'
-import { useGetAllCategoriesQuery } from './Api/Api'
-import { useSelector } from 'react-redux'
+import { getQuestions, useGetAllCategoriesQuery } from './Api/Api'
+import { useDispatch } from 'react-redux'
 
 const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard']
 const types = ['Any Type', 'Multiple Choice', 'True / False']
 const time = ['1m', '2m', '5m']
 
 export const FirstScreen = () => {
-  const { currentData, isLoading, isFetching, isError } = useGetAllCategoriesQuery()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const data = useSelector((state) => state.user.config)
-  console.log('config', data)
+  const { currentData, isLoading, isFetching, isError } = useGetAllCategoriesQuery()
   const handleStatistic = () => {
     navigate('/statistic')
   }
-
   const handleStartQuiz = () => {
+    dispatch(getQuestions())
     navigate('start')
   }
 

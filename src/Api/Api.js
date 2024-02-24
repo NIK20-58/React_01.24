@@ -1,5 +1,16 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getQuestions = createAsyncThunk('questions', async (arg, { getState }) => {
+  const {
+    user: { config }
+  } = getState()
+  const response = await fetch(
+    `https://opentdb.com/api.php?amount=${config.amount}${config.category.value ? '&category=' + config.category.id : ''}${config.difficulty !== 'Random' ? '&difficulty=' + config.difficulty : ''}${config.type !== 'Random' ? '&type=' + config.type : ''}`
+  )
+  const data = await response.json()
+  return data
+})
 
 const initialState = {
   config: {
@@ -8,7 +19,9 @@ const initialState = {
     difficulty: 'Random',
     type: 'Random',
     time: 60,
-    isLastQuestion: false
+    isLastQuestion: false,
+    questions: '',
+    isLoading: undefined
   },
   gameStat: {
     currentQuestionIndex: 0,
@@ -21,6 +34,17 @@ const startSlice = createSlice({
   name: 'start',
   initialState,
   reducers: {
+    setResetConfig: (state) => {
+      state.config.amount = 10
+      state.config.category = { id: '', value: '' }
+      state.config.difficulty = 'Random'
+      state.config.type = 'Random'
+      state.config.time = 60
+      state.config.isLastQuestion = false
+      state.gameStat.currentQuestionIndex = 0
+      state.gameStat.score = 0
+      state.gameStat.timeSpent = 0
+    },
     setAmount: (state, action) => {
       state.config.amount = action.payload
     },
@@ -52,7 +76,23 @@ const startSlice = createSlice({
     },
     setGameOver: (state) => {
       state.config.isLastQuestion = true
+    },
+    setRestart: (state) => {
+      state.config.isLastQuestion = false
+      state.config.questions = ''
+      state.gameStat.currentQuestionIndex = 0
+      state.gameStat.score = 0
+      state.gameStat.timeSpent = 0
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getQuestions.pending, (state) => {
+      state.config.isLoading = true
+    })
+    builder.addCase(getQuestions.fulfilled, (state, action) => {
+      state.config.isLoading = false
+      state.config.questions = action.payload.results
+    })
   }
 })
 
@@ -64,7 +104,9 @@ export const {
   setAnswer,
   setTimeSpent,
   setAmount,
-  setGameOver
+  setGameOver,
+  setResetConfig,
+  setRestart
 } = startSlice.actions
 export const setConfigReducer = startSlice.reducer
 
@@ -74,13 +116,8 @@ export const quizApi = createApi({
   endpoints: (builder) => ({
     getAllCategories: builder.query({
       query: () => `api_category.php`
-    }),
-    getAllQuestions: builder.query({
-      query: ({ amount, category, difficulty, type }) => {
-        return `api.php?amount=${amount}${category ? '&category=' + category : ''}${difficulty !== 'Random' ? '&difficulty=' + difficulty : ''}${type !== 'Random' ? '&type=' + type : ''}`
-      }
     })
   })
 })
 
-export const { useGetAllCategoriesQuery, useGetAllQuestionsQuery } = quizApi
+export const { useGetAllCategoriesQuery } = quizApi

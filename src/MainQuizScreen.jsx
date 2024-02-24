@@ -1,4 +1,3 @@
-import { useGetAllQuestionsQuery } from './Api/Api'
 import { Button } from './Button'
 import { ConfirmationModal } from './ConfirmationModal'
 import { ProgressBar } from './ProgressBar'
@@ -13,26 +12,20 @@ export const MainQuizScreen = () => {
     modal.style.display = 'block'
   }
 
-  const { amount, category, difficulty, type, isLastQuestion } = useSelector(
-    (state) => state.user.config
-  )
+  const { isLoading, isLastQuestion } = useSelector((state) => state.user.config)
   // console.log(state)
-  const { currentData, isError, isLoading, isFetching } = useGetAllQuestionsQuery({
-    amount: amount,
-    category: category.id,
-    difficulty: difficulty,
-    type: type
-  })
+  // const { currentData, isError, isLoading, isFetching } = useGetAllQuestionsQuery({
+  //   amount: amount,
+  //   category: category.id,
+  //   difficulty: difficulty,
+  //   type: type
+  // })
 
-  if (isError) {
-    return <p>Erorr</p>
-  }
-
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <p>Loading...</p>
   }
 
-  console.log(currentData)
+  // console.log(currentData)
 
   return (
     <>
@@ -42,7 +35,7 @@ export const MainQuizScreen = () => {
         <>
           <ProgressBar />
           <Timer />
-          <Question questionText={currentData.results} />
+          <Question />
           <br />
           <Button text={'End quiz'} onClick={handleEndBtnClick}></Button>
           <ConfirmationModal />
