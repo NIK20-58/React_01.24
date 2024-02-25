@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from 'react-redux'
 
 export const Question = () => {
   const dispatch = useDispatch()
-  const state = useSelector((state) => state)
-  const currentQuestionIndex = state.user.gameStat.currentQuestionIndex
-  const questions = state.user.config.questions
+  const state = useSelector((state) => state.user)
+  const currentQuestionIndex = state.gameStat.currentQuestionIndex
+  const questions = state.config.questions
   const correctAnswer = questions[currentQuestionIndex].correct_answer
+  const percentage = Math.floor(100 / state.config.amount)
 
   return (
     <div className="question-response">
@@ -20,7 +21,8 @@ export const Question = () => {
             dispatch(
               setAnswer({
                 answer: text,
-                correct_answer: correctAnswer
+                correct_answer: correctAnswer,
+                progressBar: percentage
               })
             )
           }
@@ -32,7 +34,8 @@ export const Question = () => {
           dispatch(
             setAnswer({
               answer: questions[currentQuestionIndex].correct_answer,
-              correct_answer: correctAnswer
+              correct_answer: correctAnswer,
+              progressBar: percentage
             })
           )
         }

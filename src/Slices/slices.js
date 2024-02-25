@@ -21,7 +21,8 @@ const initialState = {
     time: 60,
     isLastQuestion: false,
     questions: '',
-    isLoading: undefined
+    isLoading: undefined,
+    progressBar: 13
   },
   gameStat: {
     currentQuestionIndex: 0,
@@ -40,6 +41,7 @@ const startSlice = createSlice({
       state.config.difficulty = 'Random'
       state.config.type = 'Random'
       state.config.time = 60
+      state.config.progressBar = 13
       state.config.isLastQuestion = false
       state.gameStat.currentQuestionIndex = 0
       state.gameStat.score = 0
@@ -69,6 +71,7 @@ const startSlice = createSlice({
         state.config.isLastQuestion = true
       } else {
         state.gameStat.currentQuestionIndex += 1
+        state.config.progressBar += action.payload.progressBar
       }
     },
     setTimeSpent: (state, action) => {
@@ -80,6 +83,7 @@ const startSlice = createSlice({
     setRestart: (state) => {
       state.config.isLastQuestion = false
       state.config.questions = ''
+      state.config.progressBar = 13
       state.gameStat.currentQuestionIndex = 0
       state.gameStat.score = 0
       state.gameStat.timeSpent = 0
