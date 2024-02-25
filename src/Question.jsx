@@ -9,8 +9,6 @@ export const Question = () => {
   const questions = state.user.config.questions
   const correctAnswer = questions[currentQuestionIndex].correct_answer
 
-  // console.log('Hey', state)
-
   return (
     <div className="question-response">
       <p>{questions[currentQuestionIndex].question}</p>
