@@ -1,10 +1,10 @@
-import { Button } from './Button'
-import { ConfirmationModal } from './ConfirmationModal'
-import { ProgressBar } from './ProgressBar'
-import { Question } from './Question'
-import { Timer } from './Timer'
-
-const questionList = ['What is your name?']
+import { Button } from './components/Button'
+import { ConfirmationModal } from './components/ConfirmationModal'
+import { ProgressBar } from './components/ProgressBar'
+import { Question } from './components/Question'
+import { QuizResultScreen } from './QuizResultScreen'
+import { Timer } from './components/Timer'
+import { useSelector } from 'react-redux'
 
 export const MainQuizScreen = () => {
   const handleEndBtnClick = () => {
@@ -12,14 +12,26 @@ export const MainQuizScreen = () => {
     modal.style.display = 'block'
   }
 
+  const { isLoading, isLastQuestion } = useSelector((state) => state.user.config)
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
   return (
     <>
-      <ProgressBar />
-      <Timer />
-      <Question questionText={questionList} />
-      <br />
-      <Button text={'End quiz'} onClick={handleEndBtnClick}></Button>
-      <ConfirmationModal />
+      {isLastQuestion ? (
+        <QuizResultScreen />
+      ) : (
+        <>
+          <ProgressBar />
+          <Timer />
+          <Question />
+          <br />
+          <Button text={'End quiz'} onClick={handleEndBtnClick}></Button>
+          <ConfirmationModal />
+        </>
+      )}
     </>
   )
 }

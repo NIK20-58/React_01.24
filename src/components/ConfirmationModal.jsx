@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import { Button } from './Button'
+import { useDispatch } from 'react-redux'
+import { setResetConfig } from '../Slices/slices'
 
 export const ConfirmationModal = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const handleCancel = () => {
     const modal = document.getElementById('myModal')
     modal.style.display = 'none'
   }
   const handleConfirm = () => {
+    dispatch(setResetConfig())
     navigate('/')
   }
 
