@@ -1,4 +1,4 @@
-import { setAnswer } from './Slices/slices'
+import { setAnswer } from '../Slices/slices'
 import { Button } from './Button'
 import { useSelector, useDispatch } from 'react-redux'
 

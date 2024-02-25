@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { setGameOver, setTimeSpent } from './Slices/slices'
+import { setGameOver, setTimeSpent } from '../Slices/slices'
 
 export const Timer = () => {
   const state = useSelector((state) => state.user)

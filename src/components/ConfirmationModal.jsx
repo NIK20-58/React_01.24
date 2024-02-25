@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Button } from './Button'
 import { useDispatch } from 'react-redux'
-import { setResetConfig } from './Slices/slices'
+import { setResetConfig } from '../Slices/slices'
 
 export const ConfirmationModal = () => {
   const navigate = useNavigate()

@@ -1,9 +1,9 @@
-import { Button } from './Button'
-import { ConfirmationModal } from './ConfirmationModal'
-import { ProgressBar } from './ProgressBar'
-import { Question } from './Question'
+import { Button } from './components/Button'
+import { ConfirmationModal } from './components/ConfirmationModal'
+import { ProgressBar } from './components/ProgressBar'
+import { Question } from './components/Question'
 import { QuizResultScreen } from './QuizResultScreen'
-import { Timer } from './Timer'
+import { Timer } from './components/Timer'
 import { useSelector } from 'react-redux'
 
 export const MainQuizScreen = () => {
