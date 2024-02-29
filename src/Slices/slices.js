@@ -11,7 +11,7 @@ export const getQuestions = createAsyncThunk('questions', async (arg, { getState
   return data
 })
 
-export const fetchCategories = createAsyncThunk('categories', async (arg, { dispatch }) => {
+export const fetchCategories = createAsyncThunk('categories', async () => {
   const response = await fetch('https://opentdb.com/api_category.php')
   const data = await response.json()
 
