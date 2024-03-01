@@ -3,7 +3,6 @@ import { setCategory, setDifficulty, setTime, setType } from '../Slices/slices'
 
 export const Select = ({ options, fetched, type }) => {
   const dispatch = useDispatch()
-  // console.log(options)
 
   return (
     <select
