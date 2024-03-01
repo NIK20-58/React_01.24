@@ -1,4 +1,3 @@
-import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const getQuestions = createAsyncThunk('questions', async (arg, { getState }) => {
@@ -12,7 +11,18 @@ export const getQuestions = createAsyncThunk('questions', async (arg, { getState
   return data
 })
 
+export const fetchCategories = createAsyncThunk('categories', async () => {
+  const response = await fetch('https://opentdb.com/api_category.php')
+  const data = await response.json()
+
+  return data.trivia_categories
+})
+
 const initialState = {
+  catLoad: {
+    isLoading: false,
+    categories: []
+  },
   config: {
     amount: 10,
     category: { id: '', value: '' },
@@ -90,6 +100,13 @@ const startSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchCategories.pending, (state) => {
+      state.catLoad.isLoading = true
+    })
+    builder.addCase(fetchCategories.fulfilled, (state, action) => {
+      state.catLoad.isLoading = false
+      state.catLoad.categories = action.payload
+    })
     builder.addCase(getQuestions.pending, (state) => {
       state.config.isLoading = true
     })
@@ -114,14 +131,71 @@ export const {
 } = startSlice.actions
 export const setConfigReducer = startSlice.reducer
 
-export const quizApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://opentdb.com/' }),
-  reducerPath: 'allCategories',
-  endpoints: (builder) => ({
-    getAllCategories: builder.query({
-      query: () => `api_category.php`
-    })
-  })
+const statisticsInitialState = {
+  overallQuestions: 0,
+  totalScore: 0,
+  categories: {
+    'General Knowledge': 0,
+    'Entertainment: Books': 0,
+    'Entertainment: Film': 0,
+    'Entertainment: Music': 0,
+    'Entertainment: Musicals & Theatres': 0,
+    'Entertainment: Television': 0,
+    'Entertainment: Video Games': 0,
+    'Entertainment: Board Games': 0,
+    'Science & Nature': 0,
+    'Science: Computers': 0,
+    'Science: Mathematics': 0,
+    Mythology: 0,
+    Sports: 0,
+    Geography: 0,
+    History: 0,
+    Politics: 0,
+    Art: 0,
+    Celebrities: 0,
+    Animals: 0,
+    Vehicles: 0,
+    'Entertainment: Comics': 0,
+    'Science: Gadgets': 0,
+    'Entertainment: Japanese Anime & Manga': 0,
+    'Entertainment: Cartoon & Animations': 0
+  },
+  difficulty: {
+    Easy: 0,
+    Medium: 0,
+    Hard: 0
+  },
+  type: { 'True/False': 0, 'Multiple choice': 0 }
+}
+
+const statisticSlice = createSlice({
+  name: 'Statistics',
+  initialState: statisticsInitialState,
+  reducers: {
+    addQuestion: (state) => {
+      state.overallQuestions += 1
+    },
+    addTotalScore: (state) => {
+      state.totalScore += 1
+    },
+    addCategory: (state, action) => {
+      state.categories[action.payload] += 1
+    },
+    addType: (state, action) => {
+      action.payload === 'multiple'
+        ? (state.type['Multiple choice'] += 1)
+        : (state.type['True/False'] += 1)
+    },
+    addDifficulty: (state, action) => {
+      action.payload === 'easy'
+        ? (state.difficulty.Easy += 1)
+        : action.payload === 'medium'
+          ? (state.difficulty.Medium += 1)
+          : (state.difficulty.Hard += 1)
+    }
+  }
 })
 
-export const { useGetAllCategoriesQuery } = quizApi
+export const { addQuestion, fillCategories, addCategory, addType, addDifficulty, addTotalScore } =
+  statisticSlice.actions
+export const setStatisticsReducer = statisticSlice.reducer

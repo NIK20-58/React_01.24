@@ -1,23 +1,33 @@
-import { setAnswer } from '../Slices/slices'
+import {
+  addCategory,
+  addDifficulty,
+  addQuestion,
+  addType,
+  setAnswer,
+  addTotalScore
+} from '../Slices/slices'
 import { Button } from './Button'
 import { useSelector, useDispatch } from 'react-redux'
+import { decode } from 'html-entities'
 
 export const Question = () => {
   const dispatch = useDispatch()
+  const {
+    gameStat: { currentQuestionIndex },
+    config: { questions }
+  } = useSelector((state) => state.user)
   const state = useSelector((state) => state.user)
-  const currentQuestionIndex = state.gameStat.currentQuestionIndex
-  const questions = state.config.questions
   const correctAnswer = questions[currentQuestionIndex].correct_answer
   const percentage = Math.floor(100 / state.config.amount)
 
   return (
     <div className="question-response">
-      <p>{questions[currentQuestionIndex].question}</p>
+      <p>{decode(questions[currentQuestionIndex].question)}</p>
       {questions[currentQuestionIndex].incorrect_answers.map((text) => (
         <Button
-          text={text}
+          text={decode(text)}
           key={text}
-          onClick={() =>
+          onClick={() => {
             dispatch(
               setAnswer({
                 answer: text,
@@ -25,12 +35,16 @@ export const Question = () => {
                 progressBar: percentage
               })
             )
-          }
+            dispatch(addQuestion())
+            dispatch(addCategory(decode(questions[currentQuestionIndex].category)))
+            dispatch(addDifficulty(questions[currentQuestionIndex].difficulty))
+            dispatch(addType(questions[currentQuestionIndex].type))
+          }}
         />
       ))}
       <Button
-        text={questions[currentQuestionIndex].correct_answer}
-        onClick={() =>
+        text={decode(questions[currentQuestionIndex].correct_answer)}
+        onClick={() => {
           dispatch(
             setAnswer({
               answer: questions[currentQuestionIndex].correct_answer,
@@ -38,7 +52,12 @@ export const Question = () => {
               progressBar: percentage
             })
           )
-        }
+          dispatch(addQuestion())
+          dispatch(addCategory(decode(questions[currentQuestionIndex].category)))
+          dispatch(addDifficulty(questions[currentQuestionIndex].difficulty))
+          dispatch(addType(questions[currentQuestionIndex].type))
+          dispatch(addTotalScore())
+        }}
       />
     </div>
   )
