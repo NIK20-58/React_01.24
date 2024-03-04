@@ -15,13 +15,9 @@ export const FirstScreen = memo(function FirstScreen() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const fetchCategoriesMemoized = useCallback(() => {
-    dispatch(fetchCategories())
-  }, [dispatch])
-
   useEffect(() => {
-    fetchCategoriesMemoized()
-  }, [fetchCategoriesMemoized])
+    dispatch(fetchCategories())
+  }, [])
 
   const { isLoading, categories } = useSelector((state) => state.user.catLoad)
 
