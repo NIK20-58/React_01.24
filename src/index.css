@@ -56,6 +56,11 @@
   place-content: center;
 }
 
+.button-container_question {
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f7f7f7;
@@ -117,7 +122,7 @@ button:hover {
 /* Adding the Modal component's styles below */
 
 .modal {
-  display: none;
+  display: block;
   position: fixed;
   z-index: 1;
   left: 0;
