@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { fetchCategories, getQuestions } from './Slices/slices'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import { motion } from 'framer-motion'
 
 const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard']
 const types = ['Any Type', 'Multiple Choice', 'True / False']
 const time = ['1m', '2m', '5m']
 
-export const FirstScreen = () => {
+export const FirstScreen = function FirstScreen() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -33,7 +34,10 @@ export const FirstScreen = () => {
   }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, delay: 0.1 }}>
       <div className="container">
         <NumInput />
         <div className="select-wrapper">
@@ -47,6 +51,6 @@ export const FirstScreen = () => {
           <Button text="See my statistics" onClick={handleStatistic} />
         </div>
       </div>
-    </>
+    </motion.div>
   )
 }

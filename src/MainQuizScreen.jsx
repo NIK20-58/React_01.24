@@ -5,11 +5,13 @@ import { Question } from './components/Question'
 import { QuizResultScreen } from './QuizResultScreen'
 import { Timer } from './components/Timer'
 import { useSelector } from 'react-redux'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 export const MainQuizScreen = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const handleEndBtnClick = () => {
-    const modal = document.getElementById('myModal')
-    modal.style.display = 'block'
+    setIsModalOpen(true)
   }
 
   const { isLoading, isLastQuestion } = useSelector((state) => state.user.config)
@@ -18,8 +20,17 @@ export const MainQuizScreen = () => {
     return <p>Loading...</p>
   }
 
+  const variants = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1
+    }
+  }
+
   return (
-    <>
+    <motion.div initial="hidden" animate="visible" variants={variants}>
       {isLastQuestion ? (
         <QuizResultScreen />
       ) : (
@@ -29,9 +40,13 @@ export const MainQuizScreen = () => {
           <Question />
           <br />
           <Button text={'End quiz'} onClick={handleEndBtnClick}></Button>
-          <ConfirmationModal />
+          {isModalOpen && (
+            <motion.div initial="hidden" animate="visible" exit="hidden" variants={variants}>
+              <ConfirmationModal setIsModalOpen={setIsModalOpen} />
+            </motion.div>
+          )}
         </>
       )}
-    </>
+    </motion.div>
   )
 }
