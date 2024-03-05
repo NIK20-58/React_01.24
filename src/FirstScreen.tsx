@@ -6,6 +6,7 @@ import { fetchCategories, getQuestions } from './Slices/slices'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import * as React from 'react'
 
 const difficulties = ['Any Difficulty', 'Easy', 'Medium', 'Hard']
 const types = ['Any Type', 'Multiple Choice', 'True / False']

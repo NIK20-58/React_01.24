@@ -1,6 +1,10 @@
+import React from 'react'
 import { useSelector } from 'react-redux'
-export const QuizConfigDetails = () => {
-  const { type, category, time, difficulty } = useSelector((state) => state.user.config)
+import { RootState } from '../store/store'
+export const QuizConfigDetails: React.FC<{}> = () => {
+  const {
+    config: { type, category, time, difficulty }
+  } = useSelector((state: RootState) => state.user)
   return (
     <div className="quiz-info">
       <p>

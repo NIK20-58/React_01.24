@@ -7,14 +7,16 @@ import { Timer } from './components/Timer'
 import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import React from 'react'
+import { RootState } from './store/store'
 
-export const MainQuizScreen = () => {
+export const MainQuizScreen: React.FC<{}> = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleEndBtnClick = () => {
     setIsModalOpen(true)
   }
 
-  const { isLoading, isLastQuestion } = useSelector((state) => state.user.config)
+  const { isLoading, isLastQuestion } = useSelector((state: RootState) => state.user.config)
 
   if (isLoading) {
     return <p>Loading...</p>

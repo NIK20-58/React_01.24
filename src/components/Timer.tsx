@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setGameOver, setTimeSpent } from '../Slices/slices'
+import React from 'react'
+import { RootState } from '../store/store'
 
-export const Timer = () => {
-  const state = useSelector((state) => state.user)
-  const [time, setTime] = useState(state.config.time === '' ? 60 : state.config.time)
+export const Timer: React.FC<{}> = () => {
+  const state: RootState['user'] = useSelector((state: RootState) => state.user)
+  const [time, setTime] = useState(state.config.time)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -35,7 +37,7 @@ export const Timer = () => {
 
     return () => {
       clearTimeout(timer)
-      dispatch(setTimeSpent((state.config.time === '' ? 60 : state.config.time) - time))
+      dispatch(setTimeSpent(state.config.time - time))
     }
   }, [navigate, state.config.time, dispatch, time, state.gameStat.timeSpent])
 

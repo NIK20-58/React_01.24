@@ -1,9 +1,11 @@
 import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
+import React from 'react'
+import { RootState } from './store/store'
 
-export const StatisticScreen = () => {
+export const StatisticScreen: React.FC<{}> = () => {
   const { difficulty, type, overallQuestions, categories, totalScore } = useSelector(
-    (state) => state.statistics
+    (state: RootState) => state.statistics
   )
 
   return (

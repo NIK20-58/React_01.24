@@ -1,8 +1,9 @@
 import { useAnimate } from 'framer-motion'
 import { useEffect } from 'react'
 import { QuestionResponse } from './QuestionResponse'
+import React from 'react'
 
-export const Question = () => {
+export const Question: React.FC<{}> = () => {
   const [scope, animate] = useAnimate()
 
   useEffect(() => {

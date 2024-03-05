@@ -1,6 +1,11 @@
 import { useDispatch } from 'react-redux'
 import { setAmount } from '../Slices/slices'
-export const NumInput = ({ ref }) => {
+import React from 'react'
+
+interface NumInputProps {
+  ref: React.RefObject<HTMLInputElement>
+}
+export const NumInput: React.FC<NumInputProps> = ({ ref }) => {
   const dispatch = useDispatch()
   return (
     <>
@@ -13,7 +18,7 @@ export const NumInput = ({ ref }) => {
         id="question_num"
         name="question_num"
         onChange={() => {
-          const element = document.getElementById('question_num')
+          const element = document.getElementById('question_num') as HTMLInputElement
           dispatch(setAmount(element.value))
         }}
       />

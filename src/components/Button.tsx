@@ -1,13 +1,18 @@
+import React from 'react'
 import { motion } from 'framer-motion'
-export const Button = ({
+
+interface ButtonProps {
+  text: string
+  onClick?: () => void
+}
+export const Button: React.FC<ButtonProps> = ({
   text,
   onClick = () => {
     console.log('No onClick func')
   }
-}) => {
+}: ButtonProps) => {
   return (
     <motion.button
-      // layoutId="button"
       onClick={onClick}
       whileHover={{
         scale: 1.04,
