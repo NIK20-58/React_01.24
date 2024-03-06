@@ -9,17 +9,21 @@ import {
 import { Button } from './Button'
 import { useSelector, useDispatch } from 'react-redux'
 import { decode } from 'html-entities'
+import React from 'react'
+import { RootState } from '../store/store'
 
-export const QuestionResponse = () => {
+export const QuestionResponse: React.FC<{}> = () => {
   const dispatch = useDispatch()
   const {
-    gameStat: { currentQuestionIndex },
-    config: { questions, amount }
-  } = useSelector((state) => state.user)
+    user: {
+      gameStat: { currentQuestionIndex },
+      config: { questions, amount }
+    }
+  }: RootState = useSelector((state: RootState) => state)
   const correctAnswer = questions[currentQuestionIndex].correct_answer
   const percentage = Math.floor(100 / amount)
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = (answer: string) => {
     dispatch(
       setAnswer({
         answer,
@@ -28,7 +32,7 @@ export const QuestionResponse = () => {
       })
     )
     dispatch(addQuestion())
-    dispatch(addCategory(decode(questions[currentQuestionIndex].category)))
+    dispatch(addCategory(decode(questions[currentQuestionIndex]['category'])))
     dispatch(addDifficulty(questions[currentQuestionIndex].difficulty))
     dispatch(addType(questions[currentQuestionIndex].type))
     if (answer === correctAnswer) {

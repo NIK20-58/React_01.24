@@ -6,8 +6,9 @@ import { SpentTime } from './components/SpentTime'
 import { useDispatch } from 'react-redux'
 import { getQuestions, setResetConfig, setRestart } from './Slices/slices'
 import { motion } from 'framer-motion'
+import React from 'react'
 
-export const QuizResultScreen = () => {
+export const QuizResultScreen: React.FC<{}> = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleAnotherQuiz = () => {

@@ -1,9 +1,16 @@
 import { useDispatch } from 'react-redux'
 import { setCategory, setDifficulty, setTime, setType } from '../Slices/slices'
+import React from 'react'
 
-export const Select = ({ options, fetched, type }) => {
+interface SelectProps {
+  options: { name: string; id: string }[]
+  fetched: boolean
+  type: string
+}
+
+export const Select: React.FC<SelectProps> = ({ options, fetched, type }) => {
   const dispatch = useDispatch()
-  const handleSelectChange = (event) => {
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value
     if (type === 'Category') {
       const selectedOption = event.target.selectedOptions[0]
@@ -34,7 +41,7 @@ export const Select = ({ options, fetched, type }) => {
             </option>
           ))
         : options.map((item, i) => (
-            <option key={item} value={item}>
+            <option key={item.id} value={item.name}>
               {item}
             </option>
           ))}

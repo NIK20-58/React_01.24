@@ -1,6 +1,8 @@
+import React from 'react'
 import { useSelector } from 'react-redux'
-export const ResultInfo = () => {
-  const state = useSelector((state) => state.user)
+import { RootState } from '../store/store'
+export const ResultInfo: React.FC<{}> = () => {
+  const state: RootState['user'] = useSelector((state: RootState) => state.user)
   return (
     <>
       <p>

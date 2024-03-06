@@ -30,7 +30,7 @@ const initialState = {
     type: 'Random',
     time: 60,
     isLastQuestion: false,
-    questions: '',
+    questions: {},
     isLoading: undefined,
     progressBar: 13
   },
@@ -92,7 +92,7 @@ const startSlice = createSlice({
     },
     setRestart: (state) => {
       state.config.isLastQuestion = false
-      state.config.questions = ''
+      state.config.questions = {}
       state.config.progressBar = 13
       state.gameStat.currentQuestionIndex = 0
       state.gameStat.score = 0
