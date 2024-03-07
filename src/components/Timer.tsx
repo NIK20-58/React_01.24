@@ -5,16 +5,21 @@ import { setGameOver, setTimeSpent } from '../Slices/slices'
 import React from 'react'
 import { RootState } from '../store/store'
 
+export const calcMinutes = (time: number) =>
+  Math.floor(time / 60)
+    .toString()
+    .padStart(2, '0')
+
+export const calcSeconds = (time: number) => (time % 60).toString().padStart(2, '0')
+
 export const Timer: React.FC<{}> = () => {
   const state: RootState['user'] = useSelector((state: RootState) => state.user)
   const [time, setTime] = useState(state.config.time)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const minutes = Math.floor(time / 60)
-    .toString()
-    .padStart(2, '0')
-  const seconds = (time % 60).toString().padStart(2, '0')
+  const minutes = calcMinutes(time)
+  const seconds = calcSeconds(time)
 
   useEffect(() => {
     const timer = setInterval(() => {

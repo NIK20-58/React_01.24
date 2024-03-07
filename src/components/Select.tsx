@@ -40,7 +40,7 @@ export const Select: React.FC<SelectProps> = ({ options, fetched, type }) => {
               {item.name}
             </option>
           ))
-        : options.map((item, i) => (
+        : options.map((item) => (
             <option key={item.id} value={item.name}>
               {item}
             </option>
