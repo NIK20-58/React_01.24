@@ -26,15 +26,17 @@ interface rootState {
       type: string
       time: number
       isLastQuestion: boolean
-      questions: {
-        // [key: string]: string[] | string
-        ['type']: string
-        ['difficulty']: string
-        ['category']: string
-        ['question']: string
-        ['correct_answer']: string
-        ['incorrect_answers']: string[]
-      }[]
+      questions:
+        | {
+            // [key: string]: string[] | string
+            ['type']: string
+            ['difficulty']: string
+            ['category']: string
+            ['question']: string
+            ['correct_answer']: string
+            ['incorrect_answers']: string[]
+          }[]
+        | {}
 
       isLoading: boolean | undefined
       progressBar: number

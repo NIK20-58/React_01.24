@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { RootState } from '../store/store'
 
-export const getQuestions = createAsyncThunk('questions', async (arg, { getState }) => {
+export const getQuestions = createAsyncThunk('questions', async (arg, thunkAPI) => {
   const {
     user: { config }
-  } = getState()
+  } = thunkAPI.getState() as RootState
   const response = await fetch(
     `https://opentdb.com/api.php?amount=${config.amount}${config.category.value ? '&category=' + config.category.id : ''}${config.difficulty !== 'Random' ? '&difficulty=' + config.difficulty : ''}${config.type !== 'Random' ? '&type=' + config.type : ''}`
   )
@@ -18,7 +19,7 @@ export const fetchCategories = createAsyncThunk('categories', async () => {
   return data.trivia_categories
 })
 
-const initialState = {
+const initialState: RootState['user'] = {
   catLoad: {
     isLoading: false,
     categories: []
@@ -178,7 +179,7 @@ const statisticSlice = createSlice({
     addTotalScore: (state) => {
       state.totalScore += 1
     },
-    addCategory: (state, action) => {
+    addCategory: (state, action: { payload: string }) => {
       state.categories[action.payload] += 1
     },
     addType: (state, action) => {
@@ -196,6 +197,6 @@ const statisticSlice = createSlice({
   }
 })
 
-export const { addQuestion, fillCategories, addCategory, addType, addDifficulty, addTotalScore } =
+export const { addQuestion, addCategory, addType, addDifficulty, addTotalScore } =
   statisticSlice.actions
 export const setStatisticsReducer = statisticSlice.reducer
